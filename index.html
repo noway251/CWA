@@ -8,16 +8,37 @@
         body {
             font-family: "Helvetica Neue", Helvetica, Arial, "PingFang TC", "黑體-繁", "Heiti TC", "微軟正黑體", sans-serif;
             line-height: 1.6;
-            max-width: 900px;
+            max-width: 1000px; /* 稍微放寬版面 */
             margin: 0 auto;
             padding: 20px;
             color: #333;
+            font-size: 18px; /* 放大網頁整體的預設字體大小 */
         }
         h1 { border-bottom: 2px solid #eaecef; padding-bottom: 10px; }
         h2 { margin-top: 30px; color: #0366d6; }
         ul { padding-left: 20px; }
-        li { margin-bottom: 8px; }
-        .mermaid { margin: 30px 0; display: flex; justify-content: center; }
+        li { margin-bottom: 10px; }
+        
+        /* 新增：負責產生橫向捲軸的外層容器 */
+        .chart-wrapper {
+            width: 100%;
+            overflow-x: auto; /* 當內容超過寬度時，自動產生左右捲軸 */
+            overflow-y: hidden;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f6f8fa; /* 加一點淺灰底色區隔圖表 */
+            padding: 20px 0;
+            margin: 30px 0;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.05); /* 增加內部陰影讓捲動區塊更明顯 */
+        }
+
+        /* 修改：強制撐大圖表，圖表越大，裡面的文字也會等比例放大 */
+        .mermaid {
+            min-width: 1600px; /* 強制最小寬度。若覺得還是太小可以改為 2000px，太大則改為 1200px */
+            margin: 0 20px; /* 左右保留一點空白，避免貼齊邊緣 */
+            display: flex;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
@@ -26,25 +47,29 @@
     <p>本頁面紀錄公司與氣象署合作案的整體推動狀況，以及各項子議題的最新辦理情形。</p>
 
     <h2>專案進度時序圖</h2>
-    <div class="mermaid">
-    timeline
-        title 合作案與各議題進度時程
-        section 整體推動
-            114/11/06 : 氣象署長拜會董事長 <br> (調度處及綜研所列席)
-            114/12/18 : 應用需求交流會議 <br> (確立4項合作議題)
-            115/01/26 : 調度處簽呈總經理 <br> (鍾所長指示主協辦單位)
-            115/03/17 : 綜研所簽呈總經理 <br> (請各單位於4/30前提供草案)
-        section 議題一 (觀測基礎設施)
-            115/04/30 : 開發處召開討論會議
-            115/05/06 : 調度處提供文字說明 <br> (推動氣象量測基準標準化)
-            115/05/19 : 開發處行文再生處 <br> (索取自有案場規範)
-            115/05/26 : 再生處回文說明 <br> (自有設備僅供機組運轉參考)
-            115/05/28 : 開發處行文綜研所 <br> (建請洽氣象署訂定標準)
-        section 議題二&三 (觀測預報與服務)
-            115/05/04 : 調度處提供詳細說明 <br> (建議資料介接與資安獨立專案)
-        section 議題四 (法規與合作方式)
-            115/04/20 : 綜研所召開討論會議 <br> (法務室、材料處探討可行性)
-            115/04/26 : 會議紀錄簽准核定
+    <p>（提示：若圖表超出螢幕範圍，請使用下方橫向捲軸左右滑動檢視）</p>
+    
+    <div class="chart-wrapper">
+        <div class="mermaid">
+        timeline
+            title 合作案與各議題進度時程
+            section 整體推動
+                114/11/06 : 氣象署長拜會董事長 <br> (調度處及綜研所列席)
+                114/12/18 : 應用需求交流會議 <br> (確立4項合作議題)
+                115/01/26 : 調度處簽呈總經理 <br> (鍾所長指示主協辦單位)
+                115/03/17 : 綜研所簽呈總經理 <br> (請各單位於4/30前提供草案)
+            section 議題一 (觀測基礎)
+                115/04/30 : 開發處召開討論會議
+                115/05/06 : 調度處提供文字說明 <br> (推動氣象量測基準標準化)
+                115/05/19 : 開發處行文再生處 <br> (索取自有案場規範)
+                115/05/26 : 再生處回文說明 <br> (自有設備僅供機組運轉參考)
+                115/05/28 : 開發處行文綜研所 <br> (建請洽氣象署訂定標準)
+            section 議題二&三 (觀測預報)
+                115/05/04 : 調度處提供詳細說明 <br> (建議資料介接與資安獨立專案)
+            section 議題四 (法規與合作)
+                115/04/20 : 綜研所召開討論會議 <br> (法務室、材料處探討可行性)
+                115/04/26 : 會議紀錄簽准核定
+        </div>
     </div>
 
     <h2>詳細進度時程紀錄</h2>
@@ -89,7 +114,14 @@
 
     <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ startOnLoad: true });
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                fontSize: '18px', // 提升圖表內部基礎字型大小
+                fontFamily: '微軟正黑體, sans-serif'
+            }
+        });
     </script>
 </body>
 </html>
