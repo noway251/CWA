@@ -14,10 +14,38 @@
             color: #333;
             font-size: 18px;
         }
-        h1 { border-bottom: 2px solid #eaecef; padding-bottom: 10px; }
+        
+        /* 頁首與按鈕排版 */
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 2px solid #eaecef;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        h1 { margin: 0; border: none; padding: 0; }
         h2 { margin-top: 30px; color: #0366d6; }
         ul { padding-left: 20px; }
         li { margin-bottom: 10px; }
+
+        /* 切換按鈕樣式 */
+        .nav-btn {
+            background-color: #f1f8ff;
+            color: #0366d6;
+            border: 1px solid #c8e1ff;
+            padding: 10px 15px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: 0.2s;
+        }
+        .nav-btn:hover { background-color: #dbedff; }
         
         /* 橫向捲動的時間軸容器 */
         .timeline-container {
@@ -43,7 +71,7 @@
         .timeline-track::before {
             content: '';
             position: absolute;
-            top: 59px; /* ★這裡修改為59px，精準對齊圓點中心 */
+            top: 59px; /* 對齊圓點中心 */
             left: 0;
             right: 0;
             height: 4px;
@@ -85,16 +113,9 @@
             text-align: left;
             box-sizing: border-box;
         }
-        .timeline-content p {
-            margin: 0;
-            font-weight: bold;
-            font-size: 1em;
-        }
-        .timeline-desc {
-            font-size: 0.85em;
-            color: #6c757d;
-            margin-top: 8px;
-        }
+        .timeline-content p { margin: 0; font-weight: bold; font-size: 1em; }
+        .timeline-desc { font-size: 0.85em; color: #6c757d; margin-top: 8px; }
+        
         /* 類別標籤 */
         .badge {
             display: inline-block;
@@ -106,22 +127,19 @@
             margin-bottom: 10px;
         }
 
-        /* 顏色設定：整體推動 (藍色) */
+        /* 顏色設定 */
         .type-main .timeline-dot { border-color: #0366d6; }
         .type-main .timeline-content { border-top-color: #0366d6; }
         .type-main .badge { background-color: #0366d6; }
 
-        /* 顏色設定：議題一 (綠色) */
         .type-issue1 .timeline-dot { border-color: #28a745; }
         .type-issue1 .timeline-content { border-top-color: #28a745; }
         .type-issue1 .badge { background-color: #28a745; }
 
-        /* 顏色設定：議題二&三 (紫色) */
         .type-issue23 .timeline-dot { border-color: #6f42c1; }
         .type-issue23 .timeline-content { border-top-color: #6f42c1; }
         .type-issue23 .badge { background-color: #6f42c1; }
 
-        /* 顏色設定：議題四 (橘色) */
         .type-issue4 .timeline-dot { border-color: #fd7e14; }
         .type-issue4 .timeline-content { border-top-color: #fd7e14; }
         .type-issue4 .badge { background-color: #fd7e14; }
@@ -129,7 +147,11 @@
 </head>
 <body>
 
-    <h1>氣象署合作案專案進度表</h1>
+    <div class="header-container">
+        <h1>氣象署合作案專案進度表</h1>
+        <a href="print.html" class="nav-btn">📄 切換至列印版 (雙行排版)</a>
+    </div>
+    
     <p>公司與氣象署合作案的整體推動狀況，以及各項子議題的辦理情形時程表。</p>
 
     <h2>專案進度時序圖</h2>
