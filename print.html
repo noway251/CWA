@@ -13,6 +13,7 @@
             padding: 20px;
             color: #333;
             font-size: 16px;
+            background-color: #EEEEEE; /* ★ 新增：網頁預設淺灰底色 */
         }
         
         /* 頁首與按鈕排版 */
@@ -20,7 +21,7 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            border-bottom: 2px solid #eaecef;
+            border-bottom: 2px solid #ccc;
             padding-bottom: 10px;
             margin-bottom: 20px;
             flex-wrap: wrap;
@@ -39,7 +40,7 @@
 
         /* 切換按鈕樣式 */
         .nav-btn {
-            background-color: #f1f8ff;
+            background-color: #fff;
             color: #0366d6;
             border: 1px solid #c8e1ff;
             padding: 10px 15px;
@@ -50,6 +51,7 @@
             display: flex;
             align-items: center;
             transition: 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         .nav-btn:hover { background-color: #dbedff; }
 
@@ -70,11 +72,12 @@
         /* === 換行版時間軸容器 === */
         .timeline-container {
             width: 100%;
-            background: #f8f9fa;
+            background: #fff; /* ★ 將容器改為純白，截圖時更美觀 */
             padding: 40px 10px;
             border-radius: 8px;
             border: 1px solid #dee2e6;
             margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
         /* 網格排列，允許換行 */
@@ -132,7 +135,7 @@
 
         .timeline-content {
             width: 100%;
-            background: #fff;
+            background: #f8f9fa;
             padding: 12px;
             border-radius: 8px;
             border: 1px solid #e9ecef;
@@ -175,13 +178,13 @@
         /* === 列印專用樣式 === */
         @media print {
             @page { size: landscape; margin: 12mm; }
-            body { max-width: 100%; padding: 0; background: #fff; }
+            body { max-width: 100%; padding: 0; background: #fff; } /* ★ 列印時自動變回純白底色，節省墨水 */
             
             /* 列印時將「兩個按鈕」同時隱藏 */
             .action-buttons { display: none; } 
             
             .timeline-container { background: transparent; border: none; padding: 10px 0; box-shadow: none; margin-bottom: 0; }
-            .timeline-content { box-shadow: none; border: 1px solid #ddd; border-top: 5px solid; }
+            .timeline-content { box-shadow: none; border: 1px solid #ddd; border-top: 5px solid; background: #fff; }
             
             * {
                 -webkit-print-color-adjust: exact !important;
@@ -224,7 +227,7 @@
                 <div class="timeline-date">114/12/18</div>
                 <div class="timeline-dot"></div>
                 <div class="timeline-content">
-                    <span class="badge">整體推推</span>
+                    <span class="badge">整體推動</span>
                     <p>合作交流會議</p>
                     <div class="timeline-desc">邀請調度處進行應用需求交流會議，列出 4 項議題</div>
                 </div>
