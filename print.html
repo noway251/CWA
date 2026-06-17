@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>氣象署合作案專案進度表 (列印版)</title>
+    <title>氣象署合作案專案進度表 (列印/匯出版)</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <style>
         body {
             font-family: "Helvetica Neue", Helvetica, Arial, "PingFang TC", "黑體-繁", "Heiti TC", "微軟正黑體", sans-serif;
@@ -28,7 +31,10 @@
             gap: 15px;
         }
         h1 { margin: 0; border: none; padding: 0; }
-        h2 { margin-top: 30px; color: #0366d6; }
+        
+        /* 匯出區塊的標題 */
+        .export-title { margin-top: 10px; margin-bottom: 20px; color: #0366d6; font-size: 1.8em; font-weight: bold;}
+        
         ul { padding-left: 20px; }
         li { margin-bottom: 10px; }
 
@@ -36,39 +42,46 @@
         .action-buttons {
             display: flex;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
-        /* 切換按鈕樣式 */
-        .nav-btn {
-            background-color: #f1f8ff;
-            color: #0366d6;
-            border: 1px solid #c8e1ff;
+        /* 按鈕共用基礎樣式 */
+        .btn {
             padding: 10px 15px;
             font-size: 16px;
             font-weight: bold;
             border-radius: 6px;
+            cursor: pointer;
             text-decoration: none;
             display: flex;
             align-items: center;
             transition: 0.2s;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: none;
         }
+
+        /* 切換按鈕樣式 */
+        .nav-btn { background-color: #f1f8ff; color: #0366d6; border: 1px solid #c8e1ff; }
         .nav-btn:hover { background-color: #dbedff; }
 
         /* 列印按鈕樣式 */
-        .print-btn {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
+        .print-btn { background-color: #28a745; color: white; }
         .print-btn:hover { background-color: #218838; }
+
+        /* 匯出截圖按鈕樣式 */
+        .export-btn { background-color: #17a2b8; color: white; }
+        .export-btn:hover { background-color: #138496; }
         
+        /* === 匯出圖片的專屬外框 === */
+        #export-area {
+            background-color: #ffffff; /* 確保匯出圖片的底色是純白 */
+            padding: 20px 30px; /* 給予圖片四周一些留白，看起來更像專業圖表 */
+            border-radius: 8px;
+            margin-left: -30px; /* 抵銷內縮，維持網頁視覺對齊 */
+            margin-right: -30px;
+            margin-bottom: 30px;
+        }
+
         /* === 換行版時間軸容器 === */
         .timeline-container {
             width: 100%;
@@ -76,7 +89,6 @@
             padding: 40px 10px;
             border-radius: 8px;
             border: 1px solid #ddd;
-            margin-bottom: 30px;
         }
 
         /* 網格排列，允許換行 */
@@ -118,7 +130,7 @@
 
         .timeline-date {
             font-weight: bold;
-            font-size: 1.25em; /* ★ 放大日期 (原為 1.05em) */
+            font-size: 1.25em; 
             color: #495057;
             margin-bottom: 15px;
         }
@@ -137,7 +149,7 @@
         .timeline-content {
             width: 100%;
             background: #fff; 
-            padding: 16px; /* ★ 增加內部留白，讓大字體不擁擠 (原為 12px) */
+            padding: 16px; 
             border-radius: 8px;
             border: 1px solid #e9ecef;
             border-top: 5px solid #adb5bd;
@@ -150,25 +162,25 @@
         .timeline-content p { 
             margin: 0; 
             font-weight: bold; 
-            font-size: 1.15em; /* ★ 放大標題 (原為 0.95em) */
+            font-size: 1.15em; 
             line-height: 1.4;
         }
         
         .timeline-desc { 
-            font-size: 1.05em; /* ★ 大幅放大內文字體 (原為 0.85em) */
-            color: #555; /* 稍微加深文字顏色，提高簡報對比度 */
+            font-size: 1.05em; 
+            color: #555; 
             margin-top: 10px; 
-            line-height: 1.5; /* ★ 增加行高，閱讀更舒適 */
-            padding-left: 1.5em;  /* 整段往右推 */
-            text-indent: -1.5em;  /* 第一行往左拉回放圖標 */
+            line-height: 1.5; 
+            padding-left: 1.5em;  
+            text-indent: -1.5em;  
         }
         
         .badge {
             display: inline-block;
-            padding: 5px 10px; /* 配合字體放大，增加標籤內的留白 */
+            padding: 5px 10px; 
             color: #fff;
             border-radius: 4px;
-            font-size: 0.95em; /* ★ 放大標籤字體 (原為 0.8em) */
+            font-size: 0.95em; 
             font-weight: bold;
             margin-bottom: 12px;
         }
@@ -197,6 +209,7 @@
             
             .action-buttons { display: none; } 
             
+            #export-area { padding: 0; margin: 0; }
             .timeline-container { background: transparent; border: none; padding: 10px 0; margin-bottom: 0; }
             .timeline-content { border: 1px solid #ddd; border-top: 5px solid; box-shadow: none; }
             
@@ -215,144 +228,146 @@
     <div class="header-container">
         <h1>氣象署合作案專案進度表</h1>
         <div class="action-buttons">
-            <a href="index.html" class="nav-btn">🌐 切換至網頁版 (單行拖拉)</a>
-            <button class="print-btn" onclick="window.print()">🖨️ 列印此頁面</button>
+            <a href="index.html" class="btn nav-btn">🌐 切換網頁版</a>
+            <button class="btn export-btn" onclick="exportTimeline()">🖼️ 匯出 JPG 圖檔</button>
+            <button class="btn print-btn" onclick="window.print()">🖨️ 列印此頁面</button>
         </div>
     </div>
     
     <p>公司與氣象署合作案的整體推動狀況，以及各項子議題的辦理情形時程表。</p>
 
-    <h2>專案進度時序圖</h2>
-    
-    <div class="timeline-container">
-        <div class="timeline-track">
-            
-            <div class="timeline-item type-main">
-                <div class="timeline-date">114/11/06</div>
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <span class="badge">整體推動</span>
-                    <p>氣象署長拜會董事長</p>
-                    <div class="timeline-desc">📌 呂署長表達雙方合作機會</div>
-                    <div class="timeline-desc">📌 調度處及綜研所列席</div>
+    <div id="export-area">
+        <div class="export-title">專案進度時序圖</div>
+        
+        <div class="timeline-container">
+            <div class="timeline-track">
+                
+                <div class="timeline-item type-main">
+                    <div class="timeline-date">114/11/06</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="badge">整體推動</span>
+                        <p>氣象署長拜會董事長</p>
+                        <div class="timeline-desc">📌 呂署長表達雙方合作機會</div>
+                        <div class="timeline-desc">📌 調度處及綜研所列席</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="timeline-item type-main">
-                <div class="timeline-date">114/12/18</div>
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <span class="badge">整體推動</span>
-                    <p>氣象署/台電交流會議</p>
-                    <div class="timeline-desc">📌 調度處/氣象署進行應用需求交流會議，雙方就合作內容列出4項議題</div>
+                <div class="timeline-item type-main">
+                    <div class="timeline-date">114/12/18</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="badge">整體推動</span>
+                        <p>氣象署/台電交流會議</p>
+                        <div class="timeline-desc">📌 調度處/氣象署進行應用需求交流會議，雙方就合作內容列出4項議題</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="timeline-item type-main">
-                <div class="timeline-date">115/01/26</div>
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <span class="badge">整體推動</span>
-                    <p>調度處簽呈總經理</p>
-                    <div class="timeline-desc">📌 請綜研所依會議紀錄討論共識，持續辦理推動事宜</div>
+                <div class="timeline-item type-main">
+                    <div class="timeline-date">115/01/26</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="badge">整體推動</span>
+                        <p>調度處簽呈總經理</p>
+                        <div class="timeline-desc">📌 請綜研所依會議紀錄討論共識，持續辦理推動事宜</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="timeline-item type-main">
-                <div class="timeline-date">115/03/17</div>
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <span class="badge">整體推動</span>
-                    <p>綜研所簽呈總經理</p>
-                    <div class="timeline-desc">📌 規劃各議題之主協辦單位</div>
-                    <div class="timeline-desc">📌 請主政單位提供草案</div>
+                <div class="timeline-item type-main">
+                    <div class="timeline-date">115/03/17</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="badge">整體推動</span>
+                        <p>綜研所簽呈總經理</p>
+                        <div class="timeline-desc">📌 規劃各議題之主協辦單位</div>
+                        <div class="timeline-desc">📌 請主政單位提供草案</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="timeline-item type-issue4">
-                <div class="timeline-date">115/04/20</div>
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <span class="badge">議題四</span>
-                    <p>綜研所召開討論會議</p>
-                    <div class="timeline-desc">📌 會同法務室、材料處，探討合作模式及法規可行性</div>
+                <div class="timeline-item type-issue4">
+                    <div class="timeline-date">115/04/20</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="badge">議題四</span>
+                        <p>綜研所召開討論會議</p>
+                        <div class="timeline-desc">📌 會同法務室、材料處，探討合作模式及法規可行性</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="timeline-item type-issue4">
-                <div class="timeline-date">115/04/26</div>
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <span class="badge">議題四</span>
-                    <p>會議紀錄簽准核定</p>
-                    <div class="timeline-desc">📌 完成核定並會材料處及法務室</div>
+                <div class="timeline-item type-issue4">
+                    <div class="timeline-date">115/04/26</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="badge">議題四</span>
+                        <p>會議紀錄簽准核定</p>
+                        <div class="timeline-desc">📌 完成核定並會材料處及法務室</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="timeline-item type-issue1">
-                <div class="timeline-date">115/04/30</div>
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <span class="badge">議題一</span>
-                    <p>開發處召開討論會議</p>
-                    <div class="timeline-desc">📌 調度處、發電處、大甲溪電廠及綜研所出席</div>
+                <div class="timeline-item type-issue1">
+                    <div class="timeline-date">115/04/30</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="badge">議題一</span>
+                        <p>開發處召開討論會議</p>
+                        <div class="timeline-desc">📌 調度處、發電處、大甲溪電廠及綜研所出席</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="timeline-item type-issue23">
-                <div class="timeline-date">115/05/04</div>
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <span class="badge">議題二&三</span>
-                    <p>調度處提供詳細說明</p>
-                    <div class="timeline-desc">📌 考量傳輸與資安，建議將資料介接獨立為專項議題</div>
+                <div class="timeline-item type-issue23">
+                    <div class="timeline-date">115/05/04</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="badge">議題二&三</span>
+                        <p>調度處提供詳細說明</p>
+                        <div class="timeline-desc">📌 考量傳輸與資安，建議將資料介接獨立為專項議題</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="timeline-item type-issue1">
-                <div class="timeline-date">115/05/06</div>
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <span class="badge">議題一</span>
-                    <p>調度處提供文字說明</p>
-                    <div class="timeline-desc">📌 主旨為推動「氣象量測基準之標準化」避免數據落差</div>
+                <div class="timeline-item type-issue1">
+                    <div class="timeline-date">115/05/06</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="badge">議題一</span>
+                        <p>調度處提供文字說明</p>
+                        <div class="timeline-desc">📌 主旨為推動「氣象量測基準之標準化」避免數據落差</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="timeline-item type-issue1">
-                <div class="timeline-date">115/05/19</div>
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <span class="badge">議題一</span>
-                    <p>開發處行文再生處</p>
-                    <div class="timeline-desc">📌 請其提供公司自有案場觀測相關規範及標準</div>
+                <div class="timeline-item type-issue1">
+                    <div class="timeline-date">115/05/19</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="badge">議題一</span>
+                        <p>開發處行文再生處</p>
+                        <div class="timeline-desc">📌 請其提供公司自有案場觀測相關規範及標準</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="timeline-item type-issue1">
-                <div class="timeline-date">115/05/26</div>
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <span class="badge">議題一</span>
-                    <p>再生處回文說明</p>
-                    <div class="timeline-desc">📌 釐清自有設備僅供運轉參考，並非基礎觀測設施</div>
+                <div class="timeline-item type-issue1">
+                    <div class="timeline-date">115/05/26</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="badge">議題一</span>
+                        <p>再生處回文說明</p>
+                        <div class="timeline-desc">📌 釐清自有設備僅供運轉參考，並非基礎觀測設施</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="timeline-item type-issue1">
-                <div class="timeline-date">115/05/28</div>
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <span class="badge">議題一</span>
-                    <p>開發處行文綜研所</p>
-                    <div class="timeline-desc">📌 建請洽氣象署訂定標準，並盤點雷達站設置地點</div>
+                <div class="timeline-item type-issue1">
+                    <div class="timeline-date">115/05/28</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="badge">議題一</span>
+                        <p>開發處行文綜研所</p>
+                        <div class="timeline-desc">📌 建請洽氣象署訂定標準，並盤點雷達站設置地點</div>
+                    </div>
                 </div>
-            </div>
 
+            </div>
         </div>
     </div>
-
-    <h2>詳細進度時程紀錄</h2>
+    <h2 style="margin-top: 40px;">詳細進度時程紀錄</h2>
 
     <h3>📌 整體推動進程（藍色）</h3>
     <ul>
@@ -392,5 +407,42 @@
         <li><b>115/04/26</b>｜會議紀錄簽准核定，並會材料處及法務室。</li>
     </ul>
 
+    <script>
+        function exportTimeline() {
+            // 抓取剛剛設定好的外框區塊
+            const targetElement = document.getElementById('export-area');
+            const btn = document.querySelector('.export-btn');
+            
+            // 點擊後暫時改變按鈕文字，讓使用者知道正在處理
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ 處理中...';
+            btn.disabled = true;
+
+            // 啟動 html2canvas 進行截圖
+            html2canvas(targetElement, {
+                scale: 2, // 2 倍高畫質輸出，適合貼到簡報放大
+                backgroundColor: "#ffffff", // 背景強制設為白色
+                useCORS: true 
+            }).then(canvas => {
+                // 將畫布轉為 JPG 格式資料
+                const imgData = canvas.toDataURL('image/jpeg', 1.0);
+                
+                // 建立一個隱形的下載連結並自動點擊
+                const link = document.createElement('a');
+                link.download = '專案進度時序圖.jpg';
+                link.href = imgData;
+                link.click();
+
+                // 恢復按鈕狀態
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }).catch(err => {
+                console.error('匯出失敗:', err);
+                alert('匯出圖片時發生錯誤，請稍後再試。');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
+        }
+    </script>
 </body>
 </html>
