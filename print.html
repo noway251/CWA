@@ -118,7 +118,7 @@
 
         .timeline-date {
             font-weight: bold;
-            font-size: 1.05em;
+            font-size: 1.25em; /* ★ 放大日期 (原為 1.05em) */
             color: #495057;
             margin-bottom: 15px;
         }
@@ -137,7 +137,7 @@
         .timeline-content {
             width: 100%;
             background: #fff; 
-            padding: 12px;
+            padding: 16px; /* ★ 增加內部留白，讓大字體不擁擠 (原為 12px) */
             border-radius: 8px;
             border: 1px solid #e9ecef;
             border-top: 5px solid #adb5bd;
@@ -146,25 +146,31 @@
             box-sizing: border-box;
             height: 100%;
         }
-        .timeline-content p { margin: 0; font-weight: bold; font-size: 0.95em; line-height: 1.4;}
         
-        /* ★ 修改重點：加入 padding-left 與 text-indent 讓圖標文字自動縮排 */
+        .timeline-content p { 
+            margin: 0; 
+            font-weight: bold; 
+            font-size: 1.15em; /* ★ 放大標題 (原為 0.95em) */
+            line-height: 1.4;
+        }
+        
         .timeline-desc { 
-            font-size: 0.85em; 
-            color: #6c757d; 
-            margin-top: 8px; 
-            padding-left: 1.6em;  /* 整段往右推 */
-            text-indent: -1.6em;  /* 第一行往左拉回放圖標 */
+            font-size: 1.05em; /* ★ 大幅放大內文字體 (原為 0.85em) */
+            color: #555; /* 稍微加深文字顏色，提高簡報對比度 */
+            margin-top: 10px; 
+            line-height: 1.5; /* ★ 增加行高，閱讀更舒適 */
+            padding-left: 1.5em;  /* 整段往右推 */
+            text-indent: -1.5em;  /* 第一行往左拉回放圖標 */
         }
         
         .badge {
             display: inline-block;
-            padding: 4px 8px;
+            padding: 5px 10px; /* 配合字體放大，增加標籤內的留白 */
             color: #fff;
             border-radius: 4px;
-            font-size: 0.8em;
+            font-size: 0.95em; /* ★ 放大標籤字體 (原為 0.8em) */
             font-weight: bold;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
 
         /* 顏色設定 */
@@ -180,211 +186,4 @@
         .type-issue23 .timeline-content { border-top-color: #6f42c1; }
         .type-issue23 .badge { background-color: #6f42c1; }
 
-        .type-issue4 .timeline-dot { border-color: #fd7e14; }
-        .type-issue4 .timeline-content { border-top-color: #fd7e14; }
-        .type-issue4 .badge { background-color: #fd7e14; }
-
-        /* === 列印專用樣式 === */
-        @media print {
-            @page { size: landscape; margin: 12mm; }
-            body { max-width: 100%; padding: 0; background: #fff; }
-            
-            .action-buttons { display: none; } 
-            
-            .timeline-container { background: transparent; border: none; padding: 10px 0; margin-bottom: 0; }
-            .timeline-content { border: 1px solid #ddd; border-top: 5px solid; box-shadow: none; }
-            
-            * {
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-                color-adjust: exact !important;
-            }
-            .timeline-item { page-break-inside: avoid; break-inside: avoid; }
-            h2, h3 { page-break-after: avoid; break-after: avoid; }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="header-container">
-        <h1>氣象署合作案專案進度表</h1>
-        <div class="action-buttons">
-            <a href="index.html" class="nav-btn">🌐 切換至網頁版 (單行拖拉)</a>
-            <button class="print-btn" onclick="window.print()">🖨️ 列印此頁面</button>
-        </div>
-    </div>
-    
-    <p>公司與氣象署合作案的整體推動狀況，以及各項子議題的辦理情形時程表。</p>
-
-    <h2>專案進度時序圖</h2>
-    
-    <div class="timeline-container">
-        <div class="timeline-track">
-            
-            <div class="timeline-item type-main">
-                <div class="timeline-date">114/11/06</div>
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <span class="badge">整體推動</span>
-                    <p>氣象署長拜會董事長</p>
-                    <div class="timeline-desc">📌 呂署長表達雙方合作機會</div>
-                    <div class="timeline-desc">📌 調度處及綜研所列席</div>
-                </div>
-            </div>
-
-            <div class="timeline-item type-main">
-                <div class="timeline-date">114/12/18</div>
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <span class="badge">整體推動</span>
-                    <p>氣象署/台電交流會議</p>
-                    <div class="timeline-desc">📌 調度處/氣象署進行應用需求交流會議，雙方就合作內容列出4項議題</div>
-                </div>
-            </div>
-
-            <div class="timeline-item type-main">
-                <div class="timeline-date">115/01/26</div>
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <span class="badge">整體推動</span>
-                    <p>調度處簽呈總經理</p>
-                    <div class="timeline-desc">📌 請綜研所依會議紀錄討論共識，持續辦理推動事宜</div>
-                </div>
-            </div>
-
-            <div class="timeline-item type-main">
-                <div class="timeline-date">115/03/17</div>
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <span class="badge">整體推動</span>
-                    <p>綜研所簽呈總經理</p>
-                    <div class="timeline-desc">📌 規劃各議題之主協辦單位</div>
-                    <div class="timeline-desc">📌 請主政單位提供草案</div>
-                </div>
-            </div>
-
-            <div class="timeline-item type-issue4">
-                <div class="timeline-date">115/04/20</div>
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <span class="badge">議題四</span>
-                    <p>綜研所召開討論會議</p>
-                    <div class="timeline-desc">📌 會同法務室、材料處，探討合作模式及法規可行性</div>
-                </div>
-            </div>
-
-            <div class="timeline-item type-issue4">
-                <div class="timeline-date">115/04/26</div>
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <span class="badge">議題四</span>
-                    <p>會議紀錄簽准核定</p>
-                    <div class="timeline-desc">📌 完成核定並會材料處及法務室</div>
-                </div>
-            </div>
-
-            <div class="timeline-item type-issue1">
-                <div class="timeline-date">115/04/30</div>
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <span class="badge">議題一</span>
-                    <p>開發處召開討論會議</p>
-                    <div class="timeline-desc">📌 調度處、發電處、大甲溪電廠及綜研所出席</div>
-                </div>
-            </div>
-
-            <div class="timeline-item type-issue23">
-                <div class="timeline-date">115/05/04</div>
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <span class="badge">議題二&三</span>
-                    <p>調度處提供詳細說明</p>
-                    <div class="timeline-desc">📌 考量傳輸與資安，建議將資料介接獨立為專項議題</div>
-                </div>
-            </div>
-
-            <div class="timeline-item type-issue1">
-                <div class="timeline-date">115/05/06</div>
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <span class="badge">議題一</span>
-                    <p>調度處提供文字說明</p>
-                    <div class="timeline-desc">📌 主旨為推動「氣象量測基準之標準化」避免數據落差</div>
-                </div>
-            </div>
-
-            <div class="timeline-item type-issue1">
-                <div class="timeline-date">115/05/19</div>
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <span class="badge">議題一</span>
-                    <p>開發處行文再生處</p>
-                    <div class="timeline-desc">📌 請其提供公司自有案場觀測相關規範及標準</div>
-                </div>
-            </div>
-
-            <div class="timeline-item type-issue1">
-                <div class="timeline-date">115/05/26</div>
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <span class="badge">議題一</span>
-                    <p>再生處回文說明</p>
-                    <div class="timeline-desc">📌 釐清自有設備僅供運轉參考，並非基礎觀測設施</div>
-                </div>
-            </div>
-
-            <div class="timeline-item type-issue1">
-                <div class="timeline-date">115/05/28</div>
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <span class="badge">議題一</span>
-                    <p>開發處行文綜研所</p>
-                    <div class="timeline-desc">📌 建請洽氣象署訂定標準，並盤點雷達站設置地點</div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <h2>詳細進度時程紀錄</h2>
-
-    <h3>📌 整體推動進程（藍色）</h3>
-    <ul>
-        <li><b>114/11/06</b>｜氣象署呂署長拜會董事長（調度處及綜研所列席），表達雙方合作機會。</li>
-        <li><b>114/12/18</b>｜氣象署邀請調度處進行應用需求交流會議（綜研所列席），會議就合作內容及方式列出 4 項議題：<br>
-            議題一、建立氣象觀測基礎設施與設立標準<br>
-            議題二、整合觀測、預報資料與交流氣象預報技術<br>
-            議題三、客製化極短期天氣預報與預警服務<br>
-            議題四、合作方式與行政法規研議
-        </li>
-        <li><b>115/01/26</b>｜調度處簽呈總經理，請綜研所依會議紀錄討論共識，持續辦理相關推動事宜。鍾所長指示規劃各議題之主協辦單位：<br>
-            議題一：開發處主政（調度處、大甲溪電廠、綜研所等配合）<br>
-            議題二：調度處主政（再生能源處、綜研所等配合）<br>
-            議題三：調度處主政（資訊處、綜研所等配合）<br>
-            議題四：綜研所主政（法務室、材料處等配合）
-        </li>
-        <li><b>115/03/17</b>｜綜研所簽呈總經理，請各主政單位於 115/04/30 前提供相關議題合作規畫草案，再由綜研所彙整陳報董事長。</li>
-    </ul>
-
-    <h3>📌 議題一：建立氣象觀測基礎設施與設立標準（綠色）</h3>
-    <ul>
-        <li><b>115/04/30</b>｜開發處召開討論會議（出席單位：調度處、發電處、大甲溪電廠及綜研所）。</li>
-        <li><b>115/05/06</b>｜調度處會後提供文字說明：有關建立觀測規範及標準項目一案，調度處表示現行「再生能源發電系統併聯技術要點」雖規定業者須傳送風速及日輻射量等觀測資料，卻未明訂量測標準，極易導致數據基準落差。此議題主旨在於推動「氣象量測基準之標準化」，判斷共享之數據是否適用於特定之評估或預測模型。</li>
-        <li><b>115/05/19</b>｜開發處行文再生處，請再生處提供公司自有案場日照及風力項目觀測相關規範及標準。</li>
-        <li><b>115/05/26</b>｜再生處回文：公司自有案場雖設有日照計及風速計等設備，但目的為蒐集案場所在地之環境資料，以供機組運轉參考比對，並非建立氣象觀測基礎設施。</li>
-        <li><b>115/05/28</b>｜開發處行文綜研所，彙整再生處有關氣象觀測資料意見，並盤點公司各單位亦無測站相關規範標準，後續建請洽氣象署協助訂定標準；另彙整大甲溪電廠初步盤點可設置移動式雷達站之地點。</li>
-    </ul>
-
-    <h3>📌 議題二 & 三：資料整合交流與客製化預報服務（紫色）</h3>
-    <ul>
-        <li><b>115/05/04</b>｜調度處就議題二及三提供規劃、需求及建立等詳細說明文件。考量資料對接涉及大量資料傳輸、通訊架構及內部 DMZ 隔離等需求，建議將資料介接、通訊協議及資安防護等內容獨立為專項議題。</li>
-    </ul>
-
-    <h3>📌 議題四：合作方式與行政法規研議（橘色）</h3>
-    <ul>
-        <li><b>115/04/20</b>｜綜研所召開討論會議（出席單位：材料處及法務室），就各合作模式可行性進行討論。</li>
-        <li><b>115/04/26</b>｜會議紀錄簽准核定，並會材料處及法務室。</li>
-    </ul>
-
-</body>
-</html>
+        .
