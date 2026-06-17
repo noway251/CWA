@@ -33,7 +33,7 @@
         h1 { margin: 0; border: none; padding: 0; }
         
         /* 匯出區塊的標題 */
-        .export-title { margin-top: 10px; margin-bottom: 20px; color: #0366d6; font-size: 1.8em; font-weight: bold;}
+        .export-title { margin-top: 10px; margin-bottom: 20px; color: #0366d6; font-size: 2em; font-weight: bold;}
         
         ul { padding-left: 20px; }
         li { margin-bottom: 10px; }
@@ -74,10 +74,10 @@
         
         /* === 匯出圖片的專屬外框 === */
         #export-area {
-            background-color: #ffffff; /* 確保匯出圖片的底色是純白 */
-            padding: 20px 30px; /* 給予圖片四周一些留白，看起來更像專業圖表 */
+            background-color: #ffffff; 
+            padding: 20px 30px; 
             border-radius: 8px;
-            margin-left: -30px; /* 抵銷內縮，維持網頁視覺對齊 */
+            margin-left: -30px; 
             margin-right: -30px;
             margin-bottom: 30px;
         }
@@ -95,7 +95,7 @@
         .timeline-track {
             display: flex;
             flex-wrap: wrap;
-            row-gap: 50px; 
+            row-gap: 70px; /* ★ 加大列間距，避免字變大後卡片太擁擠 */
         }
 
         /* 每個節點佔據 1/4 的寬度 (25%) */
@@ -114,7 +114,7 @@
         .timeline-item::before {
             content: '';
             position: absolute;
-            top: 59px;
+            top: 68px; /* ★ 因日期字體變大，將橫線從 59px 往下微調至 68px，精準對齊圓心 */
             left: 50%;
             width: 100%;
             height: 4px;
@@ -130,7 +130,7 @@
 
         .timeline-date {
             font-weight: bold;
-            font-size: 1.25em; 
+            font-size: 1.5em; /* ★ 原為 1.25em，大幅放大 */
             color: #495057;
             margin-bottom: 15px;
         }
@@ -149,7 +149,7 @@
         .timeline-content {
             width: 100%;
             background: #fff; 
-            padding: 16px; 
+            padding: 20px; /* ★ 增加內部留白，容納更大的字體 */
             border-radius: 8px;
             border: 1px solid #e9ecef;
             border-top: 5px solid #adb5bd;
@@ -162,14 +162,14 @@
         .timeline-content p { 
             margin: 0; 
             font-weight: bold; 
-            font-size: 1.15em; 
+            font-size: 1.4em; /* ★ 原為 1.15em，大幅放大 */
             line-height: 1.4;
         }
         
         .timeline-desc { 
-            font-size: 1.05em; 
-            color: #555; 
-            margin-top: 10px; 
+            font-size: 1.3em; /* ★ 原為 1.05em，大幅放大 */
+            color: #444; /* 加深文字顏色，提高海報遠距閱讀對比度 */
+            margin-top: 12px; 
             line-height: 1.5; 
             padding-left: 1.5em;  
             text-indent: -1.5em;  
@@ -177,10 +177,10 @@
         
         .badge {
             display: inline-block;
-            padding: 5px 10px; 
+            padding: 6px 12px; 
             color: #fff;
             border-radius: 4px;
-            font-size: 0.95em; 
+            font-size: 1.15em; /* ★ 原為 0.95em，大幅放大 */
             font-weight: bold;
             margin-bottom: 12px;
         }
@@ -229,7 +229,7 @@
         <h1>氣象署合作案專案進度表</h1>
         <div class="action-buttons">
             <a href="index.html" class="btn nav-btn">🌐 切換網頁版</a>
-            <button class="btn export-btn" onclick="exportTimeline()">🖼️ 匯出 JPG 圖檔</button>
+            <button class="btn export-btn" onclick="exportTimeline()">🖼️ 匯出 JPG 圖檔 (A3高畫質)</button>
             <button class="btn print-btn" onclick="window.print()">🖨️ 列印此頁面</button>
         </div>
     </div>
@@ -409,31 +409,25 @@
 
     <script>
         function exportTimeline() {
-            // 抓取剛剛設定好的外框區塊
             const targetElement = document.getElementById('export-area');
             const btn = document.querySelector('.export-btn');
             
-            // 點擊後暫時改變按鈕文字，讓使用者知道正在處理
             const originalText = btn.innerHTML;
-            btn.innerHTML = '⏳ 處理中...';
+            btn.innerHTML = '⏳ 影像處理中...';
             btn.disabled = true;
 
-            // 啟動 html2canvas 進行截圖
             html2canvas(targetElement, {
-                scale: 2, // 2 倍高畫質輸出，適合貼到簡報放大
-                backgroundColor: "#ffffff", // 背景強制設為白色
+                scale: 3, // ★ 提升至 3倍高畫質，應付 A3 列印完全沒問題
+                backgroundColor: "#ffffff", 
                 useCORS: true 
             }).then(canvas => {
-                // 將畫布轉為 JPG 格式資料
                 const imgData = canvas.toDataURL('image/jpeg', 1.0);
                 
-                // 建立一個隱形的下載連結並自動點擊
                 const link = document.createElement('a');
-                link.download = '專案進度時序圖.jpg';
+                link.download = '氣象署合作案-專案進度時序圖.jpg';
                 link.href = imgData;
                 link.click();
 
-                // 恢復按鈕狀態
                 btn.innerHTML = originalText;
                 btn.disabled = false;
             }).catch(err => {
