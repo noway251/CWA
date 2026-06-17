@@ -72,7 +72,7 @@
         /* === 換行版時間軸容器 === */
         .timeline-container {
             width: 100%;
-            background-color: #ffffff; /* 簡報截圖用的灰底 */
+            background-color: #EEEEEE; 
             padding: 40px 10px;
             border-radius: 8px;
             border: 1px solid #ddd;
@@ -83,14 +83,14 @@
         .timeline-track {
             display: flex;
             flex-wrap: wrap;
-            row-gap: 50px; /* 每一列之間的垂直間距 */
+            row-gap: 50px; 
         }
 
-        /* ★ 修改重點：每個節點佔據 1/4 的寬度 (25%)，讓第一列剛好只放 4 個整體推動項目 */
+        /* 每個節點佔據 1/4 的寬度 (25%) */
         .timeline-item {
             flex: 0 0 25%; 
             box-sizing: border-box;
-            padding: 0 15px; /* 調整左右間距讓卡片視覺上更舒適 */
+            padding: 0 15px; 
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -110,7 +110,7 @@
             z-index: -1;
         }
 
-        /* ★ 修改重點：每一列的最後一個（第 4、8、12 個）不向右延伸線條 */
+        /* 每一列的最後一個（第 4、8、12 個）不向右延伸線條 */
         .timeline-item:nth-child(4n)::before,
         .timeline-item:last-child::before {
             display: none;
@@ -136,7 +136,7 @@
 
         .timeline-content {
             width: 100%;
-            background: #fff; /* 卡片設為純白 */
+            background: #fff; 
             padding: 12px;
             border-radius: 8px;
             border: 1px solid #e9ecef;
@@ -147,7 +147,15 @@
             height: 100%;
         }
         .timeline-content p { margin: 0; font-weight: bold; font-size: 0.95em; line-height: 1.4;}
-        .timeline-desc { font-size: 0.85em; color: #6c757d; margin-top: 8px; }
+        
+        /* ★ 修改重點：加入 padding-left 與 text-indent 讓圖標文字自動縮排 */
+        .timeline-desc { 
+            font-size: 0.85em; 
+            color: #6c757d; 
+            margin-top: 8px; 
+            padding-left: 1.6em;  /* 整段往右推 */
+            text-indent: -1.6em;  /* 第一行往左拉回放圖標 */
+        }
         
         .badge {
             display: inline-block;
@@ -181,10 +189,8 @@
             @page { size: landscape; margin: 12mm; }
             body { max-width: 100%; padding: 0; background: #fff; }
             
-            /* 列印時將「兩個按鈕」同時隱藏 */
             .action-buttons { display: none; } 
             
-            /* 如果真的印成紙本，把灰底拿掉以節省墨水 */
             .timeline-container { background: transparent; border: none; padding: 10px 0; margin-bottom: 0; }
             .timeline-content { border: 1px solid #ddd; border-top: 5px solid; box-shadow: none; }
             
@@ -219,7 +225,7 @@
                 <div class="timeline-date">114/11/06</div>
                 <div class="timeline-dot"></div>
                 <div class="timeline-content">
-                    <span class="badge">緣起</span>
+                    <span class="badge">整體推動</span>
                     <p>氣象署長拜會董事長</p>
                     <div class="timeline-desc">📌 呂署長表達雙方合作機會</div>
                     <div class="timeline-desc">📌 調度處及綜研所列席</div>
@@ -232,7 +238,7 @@
                 <div class="timeline-content">
                     <span class="badge">整體推動</span>
                     <p>氣象署/台電交流會議</p>
-                    <div class="timeline-desc">📌 調度處/氣象署進行應用需求交流會議，雙   方就合作內容列出4項議題</div>
+                    <div class="timeline-desc">📌 調度處/氣象署進行應用需求交流會議，雙方就合作內容列出4項議題</div>
                 </div>
             </div>
 
@@ -242,7 +248,7 @@
                 <div class="timeline-content">
                     <span class="badge">整體推動</span>
                     <p>調度處簽呈總經理</p>
-                    <div class="timeline-desc">📌 請綜研所依會議紀錄討論共識，持續辦理   推動事宜</div>
+                    <div class="timeline-desc">📌 請綜研所依會議紀錄討論共識，持續辦理推動事宜</div>
                 </div>
             </div>
 
@@ -253,7 +259,7 @@
                     <span class="badge">整體推動</span>
                     <p>綜研所簽呈總經理</p>
                     <div class="timeline-desc">📌 規劃各議題之主協辦單位</div>
-                    <div class="timeline-desc">📌 請主任單位提供草案</div>
+                    <div class="timeline-desc">📌 請主政單位提供草案</div>
                 </div>
             </div>
 
@@ -263,7 +269,7 @@
                 <div class="timeline-content">
                     <span class="badge">議題四</span>
                     <p>綜研所召開討論會議</p>
-                    <div class="timeline-desc">會同法務室、材料處，探討合作模式及法規可行性</div>
+                    <div class="timeline-desc">📌 會同法務室、材料處，探討合作模式及法規可行性</div>
                 </div>
             </div>
 
@@ -273,7 +279,7 @@
                 <div class="timeline-content">
                     <span class="badge">議題四</span>
                     <p>會議紀錄簽准核定</p>
-                    <div class="timeline-desc">完成核定並會材料處及法務室</div>
+                    <div class="timeline-desc">📌 完成核定並會材料處及法務室</div>
                 </div>
             </div>
 
@@ -283,7 +289,7 @@
                 <div class="timeline-content">
                     <span class="badge">議題一</span>
                     <p>開發處召開討論會議</p>
-                    <div class="timeline-desc">調度處、發電處、大甲溪電廠及綜研所出席</div>
+                    <div class="timeline-desc">📌 調度處、發電處、大甲溪電廠及綜研所出席</div>
                 </div>
             </div>
 
@@ -293,7 +299,7 @@
                 <div class="timeline-content">
                     <span class="badge">議題二&三</span>
                     <p>調度處提供詳細說明</p>
-                    <div class="timeline-desc">考量傳輸與資安，建議將資料介接獨立為專項議題</div>
+                    <div class="timeline-desc">📌 考量傳輸與資安，建議將資料介接獨立為專項議題</div>
                 </div>
             </div>
 
@@ -303,7 +309,7 @@
                 <div class="timeline-content">
                     <span class="badge">議題一</span>
                     <p>調度處提供文字說明</p>
-                    <div class="timeline-desc">主旨為推動「氣象量測基準之標準化」避免數據落差</div>
+                    <div class="timeline-desc">📌 主旨為推動「氣象量測基準之標準化」避免數據落差</div>
                 </div>
             </div>
 
@@ -313,7 +319,7 @@
                 <div class="timeline-content">
                     <span class="badge">議題一</span>
                     <p>開發處行文再生處</p>
-                    <div class="timeline-desc">請其提供公司自有案場觀測相關規範及標準</div>
+                    <div class="timeline-desc">📌 請其提供公司自有案場觀測相關規範及標準</div>
                 </div>
             </div>
 
@@ -323,7 +329,7 @@
                 <div class="timeline-content">
                     <span class="badge">議題一</span>
                     <p>再生處回文說明</p>
-                    <div class="timeline-desc">釐清自有設備僅供運轉參考，並非基礎觀測設施</div>
+                    <div class="timeline-desc">📌 釐清自有設備僅供運轉參考，並非基礎觀測設施</div>
                 </div>
             </div>
 
@@ -333,7 +339,7 @@
                 <div class="timeline-content">
                     <span class="badge">議題一</span>
                     <p>開發處行文綜研所</p>
-                    <div class="timeline-desc">建請洽氣象署訂定標準，並盤點雷達站設置地點</div>
+                    <div class="timeline-desc">📌 建請洽氣象署訂定標準，並盤點雷達站設置地點</div>
                 </div>
             </div>
 
